@@ -13,7 +13,7 @@ URL_API = "trending/movie/day";
 GENRE_URL_API = "genre/movie/list";
 
 async function getTrendingMoviesPreview() {
-  const trendingPreviewMoviesContainer = document.querySelector(
+  const trendingMoviesPreviewList = document.querySelector(
     "#trendingPreview .trendingPreview-movieList"
   );
   const { data } = await api(URL_API);
@@ -31,12 +31,12 @@ async function getTrendingMoviesPreview() {
     );
 
     movieContainer.appendChild(movieImg);
-    trendingPreviewMoviesContainer.appendChild(movieContainer);
+    trendingMoviesPreviewList.appendChild(movieContainer);
   });
 }
 
 async function getCategoriesPreview() {
-  const previewCategoriesContainer = document.querySelector(
+  const categoriesPreviewList = document.querySelector(
     "#categoriesPreview .categoriesPreview-list"
   );
 
@@ -56,6 +56,6 @@ async function getCategoriesPreview() {
 
     categoryTitle.appendChild(categoryTitleText);
     categoryContainer.appendChild(categoryTitle);
-    previewCategoriesContainer.appendChild(categoryContainer);
+    categoriesPreviewList.appendChild(categoryContainer);
   });
 }
