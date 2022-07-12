@@ -13,11 +13,11 @@ URL_API = "trending/movie/day";
 GENRE_URL_API = "genre/movie/list";
 
 async function getTrendingMoviesPreview() {
-  const trendingMoviesPreviewList = document.querySelector(
-    "#trendingPreview .trendingPreview-movieList"
-  );
+  trendingMoviesPreviewList.innerHTML = "";
+
   const { data } = await api(URL_API);
   const movies = data.results;
+
   movies.forEach((movie) => {
     // console.log(movie);
     const movieContainer = document.createElement("div");
@@ -36,9 +36,7 @@ async function getTrendingMoviesPreview() {
 }
 
 async function getCategoriesPreview() {
-  const categoriesPreviewList = document.querySelector(
-    "#categoriesPreview .categoriesPreview-list"
-  );
+  categoriesPreviewList.innerHTML = "";
 
   const { data } = await api(GENRE_URL_API);
   // const data = await res.json();
