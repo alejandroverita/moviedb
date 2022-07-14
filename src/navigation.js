@@ -81,7 +81,15 @@ function categoriesPage() {
 
   //movieDetail
   movieDetailSection.classList.add("inactive");
+
+  const [_, categoryData] = location.hash.split("=");
+  const [categoryId, categoryName] = location.hash.split("-");
+
+  headerCategoryTitle.innerHTML = categoryName;
+
+  getMoviesByCategory(categoryId);
 }
+
 function moviePage() {
   console.log("Movie!");
 
@@ -107,6 +115,7 @@ function moviePage() {
   //movieDetail
   movieDetailSection.classList.remove("inactive");
 }
+
 function searchPage() {
   console.log("Search!");
 
@@ -137,14 +146,15 @@ function trendPage() {
   headerSection.classList.remove("header-container--long");
   headerSection.style.background = "";
   arrowBtn.classList.remove("inactive");
+  arrowBtn.classList.remove("header-arrow--white");
   headerTitle.classList.add("inactive");
-  headerCategoryTitle.classList.add("inactive");
+  headerCategoryTitle.classList.remove("inactive");
 
   //form
   searchForm.classList.add("inactive");
 
   //trends
-  trendingPreviewSection.classList.remove("inactive");
+  trendingPreviewSection.classList.add("inactive");
   trendingBtn.classList.add("inactive");
 
   //categories

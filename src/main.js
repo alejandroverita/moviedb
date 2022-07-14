@@ -12,6 +12,8 @@ URL_API = "trending/movie/day";
 
 GENRE_URL_API = "genre/movie/list";
 
+CATEGORY_URL_API = "discover/movie";
+
 async function getTrendingMoviesPreview() {
   trendingMoviesPreviewList.innerHTML = "";
 
@@ -50,10 +52,41 @@ async function getCategoriesPreview() {
     const categoryTitle = document.createElement("h3");
     categoryTitle.classList.add("category-title");
     categoryTitle.setAttribute("id", "id" + category.id);
+    categoryTitle.addEventListener("click", () => {
+      location.hash = `#category=${category.id}-${category.name}`;
+    });
     const categoryTitleText = document.createTextNode(category.name);
 
     categoryTitle.appendChild(categoryTitleText);
     categoryContainer.appendChild(categoryTitle);
     categoriesPreviewList.appendChild(categoryContainer);
+  });
+}
+
+async function getMoviesByCategory(id) {
+  trendingMoviesPreviewList.innerHTML = "";
+
+  const { data } = await api(CATEGORY_URL_API, {
+    params: {
+      with_genres: id,
+    },
+  });
+  const movies = data.results;
+
+  genericSection.innerHTML = "";
+  movies.forEach((movie) => {
+    // console.log(movie);
+    const movieContainer = document.createElement("div");
+    movieContainer.classList.add("movie-container");
+    const movieImg = document.createElement("img");
+    movieImg.classList.add("movie-img");
+    movieImg.setAttribute("alt", movie.title);
+    movieImg.setAttribute(
+      "src",
+      "https://image.tmdb.org/t/p/w300" + movie.poster_path
+    );
+
+    movieContainer.appendChild(movieImg);
+    genericSection.appendChild(movieContainer);
   });
 }
