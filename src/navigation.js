@@ -27,6 +27,9 @@ function navigation() {
   } else {
     homePage();
   }
+
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 function homePage() {
@@ -83,7 +86,7 @@ function categoriesPage() {
   movieDetailSection.classList.add("inactive");
 
   const [_, categoryData] = location.hash.split("=");
-  const [categoryId, categoryName] = location.hash.split("-");
+  const [categoryId, categoryName] = categoryData.split("-");
 
   headerCategoryTitle.innerHTML = categoryName;
 
