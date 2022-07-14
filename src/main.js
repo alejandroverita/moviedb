@@ -8,7 +8,7 @@ const api = axios.create({
   },
 });
 
-URL_API = "trending/movie/day";
+TRENDING_URL_API = "trending/movie/day";
 
 GENRE_URL_API = "genre/movie/list";
 
@@ -61,9 +61,7 @@ function createCategories(categories, container) {
 }
 
 async function getTrendingMoviesPreview() {
-  // trendingMoviesPreviewList.innerHTML = "";
-
-  const { data } = await api(URL_API);
+  const { data } = await api(TRENDING_URL_API);
   const movies = data.results;
 
   createMovies(movies, trendingMoviesPreviewList);
@@ -97,6 +95,12 @@ async function getMoviesBySearch(query) {
     },
   });
 
+  const movies = data.results;
+
+  createMovies(movies, genericSection);
+}
+async function getTrendingMovies() {
+  const { data } = await api(TRENDING_URL_API);
   const movies = data.results;
 
   createMovies(movies, genericSection);

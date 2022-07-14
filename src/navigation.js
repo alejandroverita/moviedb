@@ -7,7 +7,8 @@ trendingBtn.addEventListener("click", () => {
 });
 
 arrowBtn.addEventListener("click", () => {
-  location.hash = "#home";
+  history.back();
+  //   location.hash = "#home";
 });
 
 window.addEventListener("DOMContentLoaded", navigation, false);
@@ -156,7 +157,7 @@ function trendPage() {
   arrowBtn.classList.remove("inactive");
   arrowBtn.classList.remove("header-arrow--white");
   headerTitle.classList.add("inactive");
-  headerCategoryTitle.classList.add("inactive");
+  headerCategoryTitle.classList.remove("inactive");
 
   //form
   searchForm.classList.add("inactive");
@@ -173,4 +174,8 @@ function trendPage() {
 
   //movieDetail
   movieDetailSection.classList.add("inactive");
+
+  headerCategoryTitle.innerHTML = "Tendencias";
+
+  getTrendingMovies();
 }
