@@ -1,5 +1,5 @@
 searchFormBtn.addEventListener("click", () => {
-  location.hash = "#search=";
+  location.hash = "#search=" + searchFormInput.value;
 });
 
 trendingBtn.addEventListener("click", () => {
@@ -125,7 +125,8 @@ function searchPage() {
   headerSection.classList.remove("header-container--long");
   headerSection.style.background = "";
   arrowBtn.classList.remove("inactive");
-  headerTitle.classList.remove("inactive");
+  arrowBtn.classList.remove("header-arrow--white");
+  headerTitle.classList.add("inactive");
   headerCategoryTitle.classList.add("inactive");
 
   //form
@@ -142,7 +143,11 @@ function searchPage() {
 
   //movieDetail
   movieDetailSection.classList.add("inactive");
+
+  const [_, query] = location.hash.split("=");
+  getMoviesBySearch(query);
 }
+
 function trendPage() {
   console.log("Trend!");
 
@@ -151,7 +156,7 @@ function trendPage() {
   arrowBtn.classList.remove("inactive");
   arrowBtn.classList.remove("header-arrow--white");
   headerTitle.classList.add("inactive");
-  headerCategoryTitle.classList.remove("inactive");
+  headerCategoryTitle.classList.add("inactive");
 
   //form
   searchForm.classList.add("inactive");

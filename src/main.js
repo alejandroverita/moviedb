@@ -14,6 +14,8 @@ GENRE_URL_API = "genre/movie/list";
 
 CATEGORY_URL_API = "discover/movie";
 
+SEARCH_URL_API = "search/movie";
+
 //Utils
 
 function createMovies(movies, container) {
@@ -83,6 +85,18 @@ async function getMoviesByCategory(id) {
       with_genres: id,
     },
   });
+  const movies = data.results;
+
+  createMovies(movies, genericSection);
+}
+
+async function getMoviesBySearch(query) {
+  const { data } = await api(SEARCH_URL_API, {
+    params: {
+      query,
+    },
+  });
+
   const movies = data.results;
 
   createMovies(movies, genericSection);
