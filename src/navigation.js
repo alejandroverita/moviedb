@@ -34,8 +34,8 @@ function navigation() {
 }
 
 function homePage() {
-  console.log("Home!");
-
+  //   console.log("Home!");
+  //   searchFormInput.style.value = "";
   headerSection.classList.remove("header-container--long");
   headerSection.style.background = "";
   arrowBtn.classList.add("inactive");
