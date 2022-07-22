@@ -1,3 +1,7 @@
+let page = 1;
+
+let infiniteScroll;
+
 searchFormBtn.addEventListener("click", () => {
   location.hash = "#search=" + searchFormInput.value;
 });
@@ -13,9 +17,15 @@ arrowBtn.addEventListener("click", () => {
 
 window.addEventListener("DOMContentLoaded", navigation, false);
 window.addEventListener("hashchange", navigation, false);
+window.addEventListener("scroll", infiniteScroll, false);
 
 function navigation() {
   console.log({ location });
+
+  if (infiniteScroll) {
+    window.removeEventListener("scroll", infiniteScroll, { passive: false });
+    infiniteScroll = undefined;
+  }
 
   if (location.hash.startsWith("#trends")) {
     trendPage();
@@ -31,6 +41,10 @@ function navigation() {
 
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+
+  if (infiniteScroll) {
+    window.addEventListener("scroll", infiniteScroll, { passive: false });
+  }
 }
 
 function homePage() {
@@ -182,4 +196,6 @@ function trendPage() {
   headerCategoryTitle.innerHTML = "Tendencias";
 
   getTrendingMovies();
+
+  infiniteScroll = getPaginatedTrendingMovies;
 }

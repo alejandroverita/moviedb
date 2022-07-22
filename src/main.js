@@ -32,8 +32,14 @@ const lazyLoader = new IntersectionObserver((entries) => {
   });
 });
 
-function createMovies(movies, container, lazyLoad = false) {
-  container.innerHTML = "";
+function createMovies(
+  movies,
+  container,
+  { lazyLoad = false, clean = true } = {}
+) {
+  if (clean) {
+    container.innerHTML = "";
+  }
 
   movies.forEach((movie) => {
     // console.log(movie);
@@ -50,6 +56,13 @@ function createMovies(movies, container, lazyLoad = false) {
       lazyLoad ? "data-img" : "src",
       "https://image.tmdb.org/t/p/w300" + movie.poster_path
     );
+
+    movieImg.addEventListener("error", () => {
+      movieImg.setAttribute(
+        "src",
+        "https://static.platzi.com/static/images/error/img404.png"
+      );
+    });
 
     if (lazyLoad) {
       lazyLoader.observe(movieImg);
@@ -107,7 +120,7 @@ async function getMoviesByCategory(id) {
   });
   const movies = data.results;
 
-  createMovies(movies, genericSection);
+  createMovies(movies, genericSection, true);
 }
 
 async function getMoviesBySearch(query) {
@@ -126,7 +139,39 @@ async function getTrendingMovies() {
   const { data } = await api(TRENDING_URL_API);
   const movies = data.results;
 
-  createMovies(movies, genericSection);
+  createMovies(movies, genericSection, { lazyLoad: true, clean: true });
+
+  // const btnLoadMore = document.createElement("button");
+  // btnLoadMore.innerText = "Ver mas";
+  // btnLoadMore.addEventListener("click", getPaginatedTrendingMovies);
+  // genericSection.appendChild(btnLoadMore);
+}
+
+// let page = 1;
+
+// window.addEventListener("scroll", getPaginatedTrendingMovies);
+
+async function getPaginatedTrendingMovies() {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+  const scrollValidation = scrollTop + clientHeight >= scrollHeight - 20;
+
+  if (scrollValidation) {
+    page++;
+    const { data } = await api(TRENDING_URL_API, {
+      params: {
+        page,
+      },
+    });
+    const movies = data.results;
+
+    createMovies(movies, genericSection, { lazyLoad: true, clean: false });
+  }
+
+  // const btnLoadMore = document.createElement("button");
+  // btnLoadMore.innerText = "Ver mas";
+  // btnLoadMore.addEventListener("click", getPaginatedTrendingMovies);
+  // genericSection.appendChild(btnLoadMore);
 }
 
 async function getMovieById(id) {
