@@ -119,8 +119,31 @@ async function getMoviesByCategory(id) {
     },
   });
   const movies = data.results;
+  maxPage = data.total_pages;
+  createMovies(movies, genericSection, { lazyLoad: true });
+}
 
-  createMovies(movies, genericSection, true);
+function getPaginatedMoviesByCategory(id) {
+  return async function () {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+    const scrollValidation = scrollTop + clientHeight >= scrollHeight - 20;
+
+    const pageIsNotMax = page < maxPage;
+
+    if (scrollValidation && pageIsNotMax) {
+      page++;
+      const { data } = await api(CATEGORY_URL_API, {
+        params: {
+          with_genres: id,
+          page,
+        },
+      });
+      const movies = data.results;
+
+      createMovies(movies, genericSection, { lazyLoad: true, clean: false });
+    }
+  };
 }
 
 async function getMoviesBySearch(query) {
@@ -131,32 +154,49 @@ async function getMoviesBySearch(query) {
   });
 
   const movies = data.results;
-
+  maxPage = data.total_pages;
   createMovies(movies, genericSection);
+}
+
+function getPaginatedMoviesBySearch(query) {
+  return async function () {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+    const scrollValidation = scrollTop + clientHeight >= scrollHeight - 20;
+
+    const pageIsNotMax = page < maxPage;
+
+    if (scrollValidation && pageIsNotMax) {
+      page++;
+      const { data } = await api(SEARCH_URL_API, {
+        params: {
+          query,
+          page,
+        },
+      });
+      const movies = data.results;
+
+      createMovies(movies, genericSection, { lazyLoad: true, clean: false });
+    }
+  };
 }
 
 async function getTrendingMovies() {
   const { data } = await api(TRENDING_URL_API);
   const movies = data.results;
 
+  maxPage = data.total_pages;
   createMovies(movies, genericSection, { lazyLoad: true, clean: true });
-
-  // const btnLoadMore = document.createElement("button");
-  // btnLoadMore.innerText = "Ver mas";
-  // btnLoadMore.addEventListener("click", getPaginatedTrendingMovies);
-  // genericSection.appendChild(btnLoadMore);
 }
-
-// let page = 1;
-
-// window.addEventListener("scroll", getPaginatedTrendingMovies);
 
 async function getPaginatedTrendingMovies() {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
   const scrollValidation = scrollTop + clientHeight >= scrollHeight - 20;
 
-  if (scrollValidation) {
+  const pageIsNotMax = page < maxPage;
+
+  if (scrollValidation && pageIsNotMax) {
     page++;
     const { data } = await api(TRENDING_URL_API, {
       params: {
@@ -167,11 +207,6 @@ async function getPaginatedTrendingMovies() {
 
     createMovies(movies, genericSection, { lazyLoad: true, clean: false });
   }
-
-  // const btnLoadMore = document.createElement("button");
-  // btnLoadMore.innerText = "Ver mas";
-  // btnLoadMore.addEventListener("click", getPaginatedTrendingMovies);
-  // genericSection.appendChild(btnLoadMore);
 }
 
 async function getMovieById(id) {
