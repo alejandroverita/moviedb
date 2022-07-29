@@ -8,6 +8,32 @@ const api = axios.create({
   },
 });
 
+function likedMoviesList() {
+  const item = JSON.parse(localStorage.getItem("liked_movies"));
+  let movies;
+
+  if (item) {
+    movies = item;
+  } else {
+    movies = {};
+  }
+
+  return movies;
+}
+
+function likeMovie(movie) {
+  const likedMovies = likedMoviesList();
+  console.log(likedMovies);
+
+  if (likedMovies[movie.id]) {
+    likedMovies[movie.id] = undefined;
+  } else {
+    likedMovies[movie.id] = movie;
+  }
+
+  localStorage.setItem("liked_movies", JSON.stringify(likedMovies));
+}
+
 // URL APIS
 
 TRENDING_URL_API = "trending/movie/day";
@@ -70,6 +96,7 @@ function createMovies(
     movieBtn.addEventListener("click", () => {
       movieBtn.classList.toggle("movie-btn--liked");
       // agregar pelicula local storage
+      likeMovie(movie);
     });
 
     if (lazyLoad) {
