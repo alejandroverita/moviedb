@@ -63,6 +63,9 @@ function homePage() {
   trendingPreviewSection.classList.remove("inactive");
   trendingBtn.classList.remove("inactive");
 
+  //fav
+  likedMoviesSection.classList.remove("inactive");
+
   //categories
   categoriesPreviewSection.classList.remove("inactive");
 
@@ -74,6 +77,7 @@ function homePage() {
 
   getTrendingMoviesPreview();
   getCategoriesPreview();
+  getLikedMovies();
 }
 function categoriesPage() {
   console.log("Category!");
@@ -87,6 +91,9 @@ function categoriesPage() {
 
   //form
   searchForm.classList.add("inactive");
+
+  //fav
+  likedMoviesSection.classList.add("inactive");
 
   //trends
   trendingPreviewSection.classList.add("inactive");
@@ -126,6 +133,9 @@ function moviePage() {
   //trends
   trendingPreviewSection.classList.add("inactive");
 
+  //fav
+  likedMoviesSection.classList.add("inactive");
+
   //categories
   categoriesPreviewSection.classList.add("inactive");
 
@@ -155,6 +165,9 @@ function searchPage() {
 
   //trends
   trendingPreviewSection.classList.add("inactive");
+
+  //fav
+  likedMoviesSection.classList.add("inactive");
 
   //categories
   categoriesPreviewSection.classList.add("inactive");
@@ -187,6 +200,9 @@ function trendPage() {
   //trends
   trendingPreviewSection.classList.add("inactive");
   trendingBtn.classList.add("inactive");
+
+  //fav
+  likedMoviesSection.classList.add("inactive");
 
   //categories
   categoriesPreviewSection.classList.add("inactive");
