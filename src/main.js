@@ -276,10 +276,14 @@ function getLikedMovies() {
 
   const moviesArray = Object.values(likedMovies);
 
-  createMovies(moviesArray, likedMoviesListContainer, {
-    lazyLoad: true,
-    clean: true,
-  });
+  if (moviesArray != 0) {
+    createMovies(moviesArray, likedMoviesListContainer, {
+      lazyLoad: true,
+      clean: true,
+    });
+  } else {
+    likedMoviesListContainer.innerHTML = "Agrega tus peliculas favoritas";
+  }
 
   console.log(likedMovies);
 }
